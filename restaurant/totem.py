@@ -1,5 +1,9 @@
 # imports do Python
 from random import randint
+# ADDED
+from threading import Lock, Semaphore
+from restaurant.crew import Crew
+#
 
 """
     Não troque o nome das variáveis compartilhadas, a assinatura e o nomes das funções.
@@ -12,6 +16,8 @@ class Totem:
         self.maximum_ticket_number = number_of_clients * 5
         self.call = list()
         # Insira o que achar necessario no construtor da classe.
+        self.access = Lock()
+        self.queue_access = Lock()
 
     """ 
         A função get_ticket não pode ser alterada. 
@@ -29,6 +35,9 @@ class Totem:
 
         # Adiciona o ticket na lista de chamadas
         self.call.append(ticket_number)
+        # ADD:Organiza a lista de chamadas(menores primeiro)
+        self.call.sort()
+        # ADDEND
 
         self.call_crew()
 
@@ -36,5 +45,6 @@ class Totem:
 
     """ Insira sua sincronização."""
     def call_crew(self):
+        Crew.clients_waiting.release()
         print("[CALLING] - O totem chamou a equipe para atender o pedido da senha {}.".format(self.already_sampled[-1]))
 

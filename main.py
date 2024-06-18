@@ -11,13 +11,33 @@ from restaurant.chef import Chef
 from restaurant.totem import Totem
 # Importe o que achar necessario aqui
 # import my_module
+from restaurant.table import Table
+import restaurant.shared as shared
 
 def definitions(argv, threads):
     """
     Esse espaco e reservado para voce definir variaveis globais que serao utilizadas por todas as threads.
     Lembre-se de criar as variaveis globais no arquivo restaurant/shared.py
     """
-    pass
+    # Totem
+    shared.totem = Totem(argv.clients)
+    # Table
+    shared.table = Table(argv.seats)
+    # Chef
+    def get_chef():
+        for t in threads:
+            if isinstance(t, Chef):
+                return t
+    shared.chef = get_chef()
+    # Clients
+    def init_clients(threads):
+        clients = list()
+        for t in threads:
+            if isinstance(t, Client):
+                clients.append(t)
+        return clients
+    # Lista de clientes global
+    shared.clients = init_clients(threads)
 
 def close_all(argv, threads):
     """
