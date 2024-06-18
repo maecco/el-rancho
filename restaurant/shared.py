@@ -30,7 +30,10 @@ clients = None
 # Retorna o cliente pelo ticket
 def get_client_by_ticket(tiket):
     global clients
+    print(len(clients))
     for c in clients:
+        print(c.ticket)
+        print(c._id)
         if c.ticket == tiket:
             return c
     return None

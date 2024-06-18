@@ -1,7 +1,7 @@
 # imports do Python
 from random import randint
 # ADDED
-from threading import Lock, Semaphore
+from threading import Lock
 from restaurant.crew import Crew
 #
 
@@ -17,7 +17,6 @@ class Totem:
         self.call = list()
         # Insira o que achar necessario no construtor da classe.
         self.access = Lock()
-        self.queue_access = Lock()
 
     """ 
         A função get_ticket não pode ser alterada. 

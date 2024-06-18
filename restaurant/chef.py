@@ -37,6 +37,7 @@ class Chef(Thread):
 
     """ Thread do chefe."""
     def run(self):
-        self.wait_order()
-        self.cook()
-        self.serve()
+        while True:
+            self.wait_order()
+            self.cook()
+            self.serve()

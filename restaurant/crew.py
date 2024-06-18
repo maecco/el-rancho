@@ -24,9 +24,9 @@ class Crew(Thread):
         self.clients_waiting.acquire()
     
     # Pega o ticket na fila
-    def get_ticket():
+    def get_ticket(self):
         totem = get_totem()
-        with totem.queue_access:
+        with totem.access:
             ticket = totem.call.pop(0)
         return ticket
     #
@@ -49,7 +49,8 @@ class Crew(Thread):
 
     """ Thread do membro da equipe."""
     def run(self):
-        self.wait()
-        ticket = self.get_ticket()
-        self.call_client(ticket)
-        self.make_order(ticket)
+        while True:
+            self.wait()
+            ticket = self.get_ticket()
+            self.call_client(ticket)
+            self.make_order(ticket)

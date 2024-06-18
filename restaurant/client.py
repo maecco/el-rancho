@@ -58,7 +58,7 @@ class Client(Thread):
     def seat_and_eat(self):
         table = get_table()
         print("[WAIT SEAT] - O cliente {} esta aguardando um lugar ficar livre".format(self._id))
-        table.seat()
+        table.seat(self)
         print("[SEAT] - O cliente {} encontrou um lugar livre e sentou".format(self._id))
         # Simula o cliente comendo
         sleep(random())
