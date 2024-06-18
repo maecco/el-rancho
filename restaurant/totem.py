@@ -45,5 +45,5 @@ class Totem:
     """ Insira sua sincronização."""
     def call_crew(self):
         Crew.clients_waiting.release()
-        print("[CALLING] - O totem chamou a equipe para atender o pedido da senha {}.".format(self.already_sampled[-1]))
+        print("[CALLING] - O totem chamou a equipe para atender o pedido da senha ({}).".format(self.already_sampled[-1]))
 

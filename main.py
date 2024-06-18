@@ -2,6 +2,7 @@
 import sys
 sys.dont_write_bytecode = True # Usado para nao criar arquivos .pyc
 import argparse
+from threading import Lock
 
 # Imports necessarios para executar as threads
 from restaurant.client import Client
@@ -19,10 +20,16 @@ def definitions(argv, threads):
     Esse espaco e reservado para voce definir variaveis globais que serao utilizadas por todas as threads.
     Lembre-se de criar as variaveis globais no arquivo restaurant/shared.py
     """
+    # General
+    # Thread Number
+    shared.N_THREADS = len(threads)
     # Totem
     shared.totem = Totem(argv.clients)
     # Table
     shared.table = Table(argv.seats)
+    # Crew
+    shared.crew = Crew
+    
     # Chef
     def get_chef():
         for t in threads:
@@ -38,6 +45,10 @@ def definitions(argv, threads):
         return clients
     # Lista de clientes global
     shared.clients = init_clients(threads)
+    # Client counter
+    shared.client_cont = argv.clients
+    shared.client_cont_mutex = Lock()
+
 
 def close_all(argv, threads):
     """
