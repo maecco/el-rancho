@@ -1,9 +1,9 @@
 # imports do Python
 from random import randint
-# ADDED
+
 from threading import Lock
 from restaurant.crew import Crew
-#
+
 
 """
     Não troque o nome das variáveis compartilhadas, a assinatura e o nomes das funções.
@@ -16,13 +16,13 @@ class Totem:
         self.maximum_ticket_number = number_of_clients * 5
         self.call = list()
         # Insira o que achar necessario no construtor da classe.
-        self.access = Lock()
+        self.access = Lock() # The glorious mutex
 
     """ 
         A função get_ticket não pode ser alterada. 
         Ela garante que um ticket aleatório (não repetido) seja criado e que a equipe seja chamada para atendê-lo.
     """
-    def get_ticket(self):
+    def get_ticket(self): # Essa funçao é sempre chamada com um Lock adquirido
         
         # Gera um ticket aleatório
         ticket_number = randint(1, self.maximum_ticket_number)   
@@ -34,9 +34,9 @@ class Totem:
 
         # Adiciona o ticket na lista de chamadas
         self.call.append(ticket_number)
-        # ADD:Organiza a lista de chamadas(menores primeiro)
+        # Organiza a lista de chamadas(menores primeiro)
         self.call.sort()
-        # ADDEND
+
 
         self.call_crew()
 
@@ -44,6 +44,7 @@ class Totem:
 
     """ Insira sua sincronização."""
     def call_crew(self):
+        # Sinaliza para a equipe que um cliente está esperando
         Crew.clients_waiting.release()
         print("[CALLING] - O totem chamou a equipe para atender o pedido da senha ({}).".format(self.already_sampled[-1]))
 

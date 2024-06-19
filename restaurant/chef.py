@@ -24,20 +24,24 @@ class Chef(Thread):
 
     """ Chef prepara um dos pedido que recebeu do membro da equipe."""
     def cook(self):
+        # Pega o pedido que esta esperando mais tempo
         with self.access_queue:
             self.current_order = self.orders_queue.pop(0)
         print("[COOKING] - O chefe esta preparando o pedido para a senha ({}).".format(self.current_order)) # Modifique para o numero do ticket
+        # Prepara o pedido
         sleep(randint(MIN_PREP_TIME,MAX_PREP_TIME))
 
     """ Chef serve o pedido preparado."""
     def serve(self):
         print("[READY] - O chefe está servindo o pedido para a senha ({}).".format(self.current_order)) # Modificar para o numero do ticket
+        # Pega o cliente de acordo com o pedido e libera ele para comer
         client = get_client_by_ticket(self.current_order)
         client.can_procede.release()
 
     """ O chefe espera algum pedido vindo da equipe."""
     def wait_order(self):
         print("O chefe está esperando algum pedido.")
+        # Espera um pedido...
         self.orders.acquire()
         
 

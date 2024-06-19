@@ -28,9 +28,9 @@ class Client(Thread):
         self._id = i
         super().__init__()
         # Insira o que achar necessario no construtor da classe.
-        self.ticket = None
-        self.can_procede = Semaphore(0)
-        self.made_order = Semaphore(0)
+        self.ticket : int = None # Ticket do cliente
+        self.can_procede = Semaphore(0) # Semaforo binário para controlar o atendimento
+        self.made_order = Semaphore(0)  # Semaforo binário para controlar o pedido
 
     """ Pega o ticket do totem."""
     def get_my_ticket(self):
@@ -44,22 +44,26 @@ class Client(Thread):
     """ Espera ser atendido pela equipe. """
     def wait_crew(self):
         print(f"[WAIT] - O cliente ({self._id}|{self.ticket}) esta aguardando atendimento.")
+        # Espera a equipe chamar o cliente
         self.can_procede.acquire()
 
     
     """ O cliente pensa no pedido."""
     def think_order(self):
         print(f"[THINK] - O cliente ({self._id}|{self.ticket}) esta pensando no que pedir.")
+        # Simula o cliente pensando
         sleep(randint(MIN_THINKING_TIME,MAX_THINKING_TIME))
 
     """ O cliente faz o pedido."""
     def order(self):
         print(f"[ORDER] - O cliente ({self._id}|{self.ticket}) pediu algo.")
+        # Avisa o atendente que escolheu o pedido
         self.made_order.release()
 
     """ Espera pelo pedido ficar pronto. """
     def wait_chef(self):
         print(f"[WAIT MEAL] - O cliente ({self._id}|{self.ticket}) esta aguardando o prato.")
+        # Espera o pedido ficar pronto
         self.can_procede.acquire()
     
     """
@@ -68,20 +72,19 @@ class Client(Thread):
         ter seu pedido pronto e possuir um lugar pronto pra sentar. 
     """
     def seat_and_eat(self):
-        table = get_table()
         print(f"[WAIT SEAT] - O cliente \
 ({self._id}|{self.ticket}) esta aguardando um lugar ficar livre")
-        table.seat(self)
+        # Procura sentar na mesa
+        get_table().seat(self)
         print(f"[SEAT] - O cliente \
 ({self._id}|{self.ticket}) encontrou um lugar livre e sentou")
         # Simula o cliente comendo
         sleep(randint(MIN_EATING_TIME, MAX_EATING_TIME))
-        #
 
     """ O cliente deixa o restaurante."""
     def leave(self):
-        table = get_table()
-        table.leave(self)
+        # Libera o lugar na mesa
+        get_table().leave(self)
         print(f"[LEAVE] - O cliente ({self._id}|{self.ticket}) saiu do restaurante")
         # Decrementa o numero de clientes
         decrement_client_cont()

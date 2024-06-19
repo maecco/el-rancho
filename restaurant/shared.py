@@ -8,7 +8,8 @@
 
 # CONSTANTS
 # General
-N_THREADS = None
+# Numero de threads total
+N_THREADS = None # Usado apenas na linha 61 deste arquivo
 
 # Totem
 totem = None
@@ -32,6 +33,7 @@ def get_chef():
 crew = None
 
 # Clients
+
 # Lista de clientes global
 clients = None
 # Retorna o cliente pelo ticket
@@ -41,8 +43,9 @@ def get_client_by_ticket(tiket):
         if c.ticket == tiket:
             return c
     return None
+
 # Numero de clientes a ser atendido
-client_cont = 1000
+client_cont = 1000 # Valor inicial simbolico > 0
 client_cont_mutex = None
 # Client cont decrementer
 def decrement_client_cont():
@@ -55,8 +58,10 @@ def get_client_cont():
     with client_cont_mutex:
         return client_cont
 
-# Finaliza toodas as threads em loop
+# Finaliza toodas as threads que possuem loops
 def release_all():
     chef.orders.release()
-    crew.release_all(N_THREADS) # N_THREADS com certeza maior que threads crew
+    # N_THREADS com certeza maior que threads crew
+    # portanto toda as threads crew serao liberadas
+    crew.release(N_THREADS) 
         
