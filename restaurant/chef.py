@@ -24,7 +24,8 @@ class Chef(Thread):
 
     """ Chef prepara um dos pedido que recebeu do membro da equipe."""
     def cook(self):
-        self.current_order = self.orders_queue.pop(0)
+        with self.access_queue:
+            self.current_order = self.orders_queue.pop(0)
         print("[COOKING] - O chefe esta preparando o pedido para a senha ({}).".format(self.current_order)) # Modifique para o numero do ticket
         sleep(randint(MIN_PREP_TIME,MAX_PREP_TIME))
 
