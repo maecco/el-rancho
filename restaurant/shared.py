@@ -10,18 +10,6 @@
 # General
 N_THREADS = None
 
-# Clients
-MAX_THINKING_TIME = 3 # s
-MIN_THINKING_TIME = 1 # s
-
-MAX_EATING_TIME = 4
-MIN_EATING_TIME = 1
-
-# Chef
-MAX_PREP_TIME = 5 # s
-MIN_PREP_TIME = 1 # s
-
-
 # Totem
 totem = None
 def get_totem():

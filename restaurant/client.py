@@ -10,11 +10,13 @@ from restaurant.shared import (
     decrement_client_cont,
     get_client_cont,
     release_all,
-    MAX_THINKING_TIME,
-    MIN_THINKING_TIME,
-    MAX_EATING_TIME,
-    MIN_EATING_TIME
     )
+
+# Client Constants
+MAX_THINKING_TIME = 3 # s
+MIN_THINKING_TIME = 1 # s
+MAX_EATING_TIME = 4
+MIN_EATING_TIME = 1
 
 """
     Não troque o nome das variáveis compartilhadas, a assinatura e o nomes das funções.
